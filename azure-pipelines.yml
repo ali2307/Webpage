@@ -19,9 +19,16 @@ steps:
     archiveFile: '$(Build.ArtifactStagingDirectory)/deploy.zip'
     replaceExistingArchive: true
 
-- task: AzureWebApp@1
+- script: |
+    sudo apt-get update
+    sudo apt-get install -y zip
+  displayName: 'Install zip'
+
+- task: ArchiveFiles@2
   inputs:
-    azureSubscription: 'AzureDeployConnection'
-    appType: 'webAppLinux'
-    appName: 'firstpage'
-    package: '$(Build.ArtifactStagingDirectory)/deploy.zip'
+    rootFolderOrFile: '$(Build.ArtifactStagingDirectory)'
+    includeRootFolder: false
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/deploy.zip'
+    replaceExistingArchive: true
+
